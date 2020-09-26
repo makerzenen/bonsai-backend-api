@@ -46,3 +46,69 @@ Thanks and good luck!
 9. Create effective unit tests for the functions you see fit
 10. You might have a few tickets with `inventory` equaled to `-1`. This should never be the case. Figure out where this is happening & fix the bug
 11. There is a query to fetch a ticket by its ID. However, it's not working. Figure out why & fix the bug
+
+## Questions
+
+1. Endpoint authentication?
+
+## Implementation Steps
+
+### Review
+
+0. Code review.
+1. Review Typescript.
+2. Review GraphQL.
+3. Review MongoDB.
+4. Review Jest.
+
+### Routes
+
+0. *OPTIONAL* POST /api/v1/login -> accepts { username, password }, returns { success/fail }
+1. GET /api/v1/tickets -> returns { tickets[] }
+2. GET /api/v1/tickets/harvest -> returns { url }, url: { status: [pending, succeeded, failed], batchSize: int, ticketIds: uuid }
+3. GET /api/v1/tickets/unmatched -> returns { tickets[] }
+
+### Models
+
+1. Ticket - `source/entities/Ticket.ts`
+
+### Environment Variables
+
+1. `OMDB_API_KEY`
+2. `NODE_ENV`
+3. `PORT`
+4. `LOG_LEVEL`
+5. `DATABASE_HOST`
+6. `DATABASE_USER`
+7. `DATABASE_NAME`
+8. `DATABASE_PASSWORD`
+9. `API_VERSION`
+
+### Concise, Rewritten Instruction List
+
+- [ ] Create GraphQL endpoint for ticket harvest.
+  - Test API: `https://us-central1-bonsai-interview-endpoints.cloudfunctions.net/movieTickets?skip=0&limit=10`
+  - The `skip` and `limit` parameters are the only ones that exist.
+  - There are only `1000` movie tickets in this test feed.
+  - Somehow find more tickets (TBD - is this important? 1000 is fine).
+- [ ] Clean and store additional data about the imported movie tickets from this API: http://www.omdbapi.com/
+  - Obtain API key.
+  - Find out request rate limitations.
+  - Build HTTP requests.
+  - Merge data into entity.
+  - Store in MongoDB.
+- [ ] Create GET `tickets`, GET `tickets/unmatched` GraphQL endpoint.
+  - Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
+  - Optimize `TicketResolver.listTickets` method. You can modify any file that you think would improve the response time.
+  - Fix `inventory = -1` bug.
+  - Fix `fetchTicketByID()` bug.
+- [ ] Test Plan (Limiting to one test per 'thing' - you'll get the point)
+  - Test all functions.
+  - Test database creation.
+  - Test app server creation.
+  - Test all routes.
+- [ ] Fix any bugs or bad code you happen to find along the way.
+- [ ] Optimize one previously written function (`(method) TicketResolver.listTickets(input: ListTicketsInput): Promise<Ticket[]>` in `source/resolvers/Ticket.resolver.ts`). It should get resolved in under 15ms when fetching for 10 items out of 1000+ documents
+
+TBD: 
+5. You might have a few tickets without matching movies, adjust the logic to find those as well (you might still not be able to find 100% of them, but do your best)
