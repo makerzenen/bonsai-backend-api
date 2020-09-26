@@ -87,9 +87,9 @@ Thanks and good luck!
 
 ### Concise, Rewritten Instruction List
 
-- [ ] Get application working.
-  - [ ] Errors remain likely due to out of date depends.
-- [ ] Get database working.
+- [x] Get application working.
+  - [x] Errors remain likely due to out of date depends.
+- [x] Get database working.
   - [x] Dockerfile and docker-compose.yml.
 - [x] Get tests working (`yarn test`).
 - [ ] Create GraphQL endpoint for ticket harvest.
@@ -98,8 +98,8 @@ Thanks and good luck!
   - There are only `1000` movie tickets in this test feed.
   - Somehow find more tickets (TBD - is this important? 1000 is fine).
 - [ ] Clean and store additional data about the imported movie tickets from this API: http://www.omdbapi.com/
-  - Obtain API key.
-  - Find out request rate limitations.
+  - [x] Obtain API key.
+  - [x] Find out request rate limitations: 1000 per day.
   - Build HTTP requests.
   - Merge data into entity.
   - Store in MongoDB.
@@ -107,7 +107,7 @@ Thanks and good luck!
   - Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
   - Optimize `TicketResolver.listTickets` method. You can modify any file that you think would improve the response time.
   - Fix `inventory = -1` bug.
-  - Fix `fetchTicketByID()` bug.
+  - [x] Fix `fetchTicketByID()` bug.
 - [ ] Test Plan (Limiting to one test per 'thing' - you'll get the point)
   - Test all functions.
   - Test database creation.
@@ -123,3 +123,4 @@ TBD:
 
 1. `package.json` -> `"@types/jest": "false24.0.12",`
 2. `Ticket.resolver.ts` -> `import TicketModel, { Ticket } from "../entities/ticket"`
+3. `Ticket.ts` -> `return this.findOne({ _id: id + 1 })`
