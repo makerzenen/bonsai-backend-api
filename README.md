@@ -50,6 +50,7 @@ Thanks and good luck!
 ## Questions
 
 1. Endpoint authentication?
+2. Update all very old dependencies?
 
 ## Implementation Steps
 
@@ -86,6 +87,11 @@ Thanks and good luck!
 
 ### Concise, Rewritten Instruction List
 
+- [ ] Get application working.
+  - [ ] Errors remain likely due to out of date depends.
+- [ ] Get database working.
+  - [x] Dockerfile and docker-compose.yml.
+- [x] Get tests working (`yarn test`).
 - [ ] Create GraphQL endpoint for ticket harvest.
   - Test API: `https://us-central1-bonsai-interview-endpoints.cloudfunctions.net/movieTickets?skip=0&limit=10`
   - The `skip` and `limit` parameters are the only ones that exist.
@@ -112,3 +118,8 @@ Thanks and good luck!
 
 TBD: 
 5. You might have a few tickets without matching movies, adjust the logic to find those as well (you might still not be able to find 100% of them, but do your best)
+
+### Error List
+
+1. `package.json` -> `"@types/jest": "false24.0.12",`
+2. `Ticket.resolver.ts` -> `import TicketModel, { Ticket } from "../entities/ticket"`

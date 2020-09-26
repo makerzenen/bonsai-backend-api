@@ -1,10 +1,11 @@
 {
   "name": "backend-test",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": "git@github.com:shopbonsai/backend-test.git",
-  "author": "Mackie Drew <mackie@shopbonsai.ca>",
+  "author": "Mackie Drew <mackie@shopbonsai.ca>, Dustan Curtis <dustancurtish@gmail.com>",
   "license": "MIT",
   "private": false,
+  "engines": ">=12",
   "scripts": {
     "test": "jest .",
     "lint": "tslint --project '.'",
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "apollo-server": "2.18.1",
+    "dotenv": "^8.2.0",
     "graphql": "14.5.0",
     "mongodb": "3.6.2",
     "mongoose": "5.10.7",
