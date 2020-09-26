@@ -4,13 +4,21 @@ import { connect } from "mongoose"
 import * as path from "path"
 import "reflect-metadata"
 import { buildSchema } from "type-graphql"
+import dotenv from "dotenv"
+
+
 
 import { ObjectIdScalar } from "./objectId.scalar"
 import resolvers from "./resolvers"
 import typegooseMiddleware from "./typegooseMiddleware"
 
-export const MONGODB_URI = "mongodb://localhost:27017/bonsai-backend-test"
-export const PORT = 4000
+// Load env from file unless in production.
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
+
+export const MONGODB_URI = `mongodb://${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`
+export const PORT = process.env.PORT || 8080
 
 const main = async () => {
   try {
