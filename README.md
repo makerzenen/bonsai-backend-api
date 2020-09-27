@@ -92,28 +92,36 @@ Thanks and good luck!
 - [x] Get database working.
   - [x] Dockerfile and docker-compose.yml.
 - [x] Get tests working (`yarn test`).
-- [ ] Create GraphQL endpoint for ticket harvest.
-  - Test API: `https://us-central1-bonsai-interview-endpoints.cloudfunctions.net/movieTickets?skip=0&limit=10`
-  - The `skip` and `limit` parameters are the only ones that exist.
-  - There are only `1000` movie tickets in this test feed.
-  - Somehow find more tickets (TBD - is this important? 1000 is fine).
-- [ ] Clean and store additional data about the imported movie tickets from this API: http://www.omdbapi.com/
+- [x] Create GraphQL endpoint for ticket harvest.
+  - [x] Test API: `https://us-central1-bonsai-interview-endpoints.cloudfunctions.net/movieTickets?skip=0&limit=10`
+  - [x] The `skip` and `limit` parameters are the only ones that exist.
+  - [x] There are only `1000` movie tickets in this test feed.
+  - [ ] Somehow find more tickets (TBD - is this important? 1000 is fine).
+- [x] Clean and store additional data about the imported movie tickets from this API: http://www.omdbapi.com/
   - [x] Obtain API key.
   - [x] Find out request rate limitations: 1000 per day.
-  - Build HTTP requests.
-  - Merge data into entity.
-  - Store in MongoDB.
-- [ ] Create GET `tickets`, GET `tickets/unmatched` GraphQL endpoint.
-  - Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
-  - Optimize `TicketResolver.listTickets` method. You can modify any file that you think would improve the response time.
-  - Fix `inventory = -1` bug.
+  - [x] Build HTTP requests.
+  - [x] Merge data into entity.
+  - [ ] Store in MongoDB.
+- [x] Create GET `tickets`, GET `tickets/unmatched` GraphQL endpoint.
+  - [ ] Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
+  - [ ] Optimize `TicketResolver.listTickets` method. You can modify any file that you think would improve the response time.
+  - [x] Fix `inventory = -1` bug.
   - [x] Fix `fetchTicketByID()` bug.
 - [ ] Test Plan (Limiting to one test per 'thing' - you'll get the point)
   - Test all functions.
   - Test database creation.
   - Test app server creation.
   - Test all routes.
-- [ ] Fix any bugs or bad code you happen to find along the way.
+  - [ ] api.test.ts
+  - [x] baseline.test.ts
+  - [ ] entities.test.ts
+  - [x] logger.test.ts
+  - [ ] main.test.ts
+  - [ ] resolvers.test.ts
+  - [ ] utilities.test.ts
+
+- [x] Fix any bugs or bad code you happen to find along the way.
 - [ ] Optimize one previously written function (`(method) TicketResolver.listTickets(input: ListTicketsInput): Promise<Ticket[]>` in `source/resolvers/Ticket.resolver.ts`). It should get resolved in under 15ms when fetching for 10 items out of 1000+ documents
 
 TBD: 
@@ -124,3 +132,16 @@ TBD:
 1. `package.json` -> `"@types/jest": "false24.0.12",`
 2. `Ticket.resolver.ts` -> `import TicketModel, { Ticket } from "../entities/ticket"`
 3. `Ticket.ts` -> `return this.findOne({ _id: id + 1 })`
+4. `Ticket.ts` -> `if (this && Math.floor(Math.random() * 6) + 1 === 3) { this.inventory = -1 }`
+
+### File Descriptions (My Additions)
+
+1. `.dockerignore`: List of files to not include when building Docker images.
+2. `.env`: Holds environment variables for local environments.
+3. `docker-compose.yml`: Deploy the application with a MongoDB instance.
+4. `Dockerfile`: Builds Docker images.
+5. `source/tests/`: Tests broken down by file or set of files under test.
+6. `source/logger.ts`: Build a Pino logger instance for reuse across project.
+7. `source/routes.ts`: All API routes.
+8. `source/utilities.ts`: Helper methods for API calls, data transformations, etc.
+

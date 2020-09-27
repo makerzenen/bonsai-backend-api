@@ -10,12 +10,9 @@ export class TicketInput {
 }
 
 @InputType()
-export class ListTicketsInput {
-  @Field(() => Date)
-  public cursor: Date
-
-  @Field(() => Int)
-  public limit: number
+export class ListTicketsMatchedInput {
+  @Field(() => Boolean)
+  public matchedOMDB: boolean
 }
 
 @InputType()
@@ -23,8 +20,65 @@ export class AddTicketInput implements Partial<Ticket> {
   @Field()
   public title: string
 
+  @Field(() => Int)
+  public year: number
+
+  @Field()
+  public rated: string
+
+  @Field()
+  public released: Date
+
+  @Field()
+  public runtime: number
+
   @Field(() => [String])
-  public genre: string[]
+  public genres: string[]
+
+  @Field(() => [String])
+  public directors: string[]
+
+  @Field(() => [String])
+  public writers: string[]
+
+  @Field(() => [String])
+  public actors: string[]
+
+  @Field()
+  public plot: string
+
+  @Field(() => [String])
+  public languages: string[]
+
+  @Field(() => [String])
+  public countries: string[]
+
+  @Field()
+  public awards: string
+
+  @Field(() => [String])
+  public ratings: string[]
+
+  @Field()
+  public metascore: string
+
+  @Field()
+  public imdbRating: number
+
+  @Field(() => Int)
+  public imdbVotes: number
+
+  @Field()
+  public imdbID: string
+
+  @Field()
+  public type: string
+
+  @Field()
+  public production: string
+
+  @Field()
+  public website: string
 
   @Field(() => Float)
   public price: number
@@ -37,4 +91,7 @@ export class AddTicketInput implements Partial<Ticket> {
 
   @Field()
   public date: Date
+
+  @Field()
+  public matchedOMDB: boolean
 }
