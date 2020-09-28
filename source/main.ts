@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
-export const MONGODB_URI = `mongodb://${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`
+export const MONGODB_URI = `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`
 export const PORT = process.env.PORT || 8080
 
 export function buildExpress() {
@@ -117,7 +117,10 @@ const main = async () => {
   try {
     await connect(
       MONGODB_URI,
-      { useNewUrlParser: true },
+      {
+        useNewUrlParser: true,
+        authSource: "admin"
+      },
     )
   } catch (mongoConnectError) {
     logger.error(mongoConnectError)

@@ -56,8 +56,8 @@ export class AddTicketInput implements Partial<Ticket> {
   @Field()
   public awards: string
 
-  @Field(() => [String])
-  public ratings: string[]
+  @Field(() => [Object])
+  public ratings: object[]
 
   @Field()
   public metascore: string

@@ -73,6 +73,10 @@ Thanks and good luck!
 
 1. Ticket - `source/entities/Ticket.ts`
 
+### Database
+
+Connect to MongoDB: `mongo localhost:27017/bonsai -u bonsai -p password --authenticationDatabase admin`
+
 ### Environment Variables
 
 1. `OMDB_API_KEY`
@@ -104,7 +108,7 @@ Thanks and good luck!
   - [x] Merge data into entity.
   - [ ] Store in MongoDB.
 - [x] Create GET `tickets`, GET `tickets/unmatched` GraphQL endpoint.
-  - [ ] Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
+  - [x] Extend existing `TicketResolver.listTickets` to output movie information for each ticket.
   - [ ] Optimize `TicketResolver.listTickets` method. You can modify any file that you think would improve the response time.
   - [x] Fix `inventory = -1` bug.
   - [x] Fix `fetchTicketByID()` bug.

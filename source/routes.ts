@@ -4,7 +4,7 @@ import camelcaseKeys from "camelcase-keys"
 
 import logger from "./logger"
 import TicketResolver from "./resolvers/Ticket.resolver"
-import { harvestTickets, harvestMovieData, mergeMovieDetails, marshalTicket, checkNA, parseRuntime } from "./utilities"
+import { harvestTickets, harvestMovieData, mergeMovieDetails, marshalTicket, parseRuntime, convertTicketId } from "./utilities"
 
 const router = express.Router();
 const ticketResolver = new TicketResolver()
@@ -49,12 +49,21 @@ router.get("/tickets/harvest", async (req, res) => {
       }
     }
     // Harvest and append movie data.
-    for (let i = 0; i < tickets.length; i++) {
-      let ticket = tickets[i]
-      const data = await harvestMovieData(ticket)
-      ticket = marshalTicket(mergeMovieDetails(ticket, data))
-      // Insert ticket into database.
-      // const result = await ticketResolver.addTicket(ticket)
+    for (let i = 0; i < 50; i++) {
+      let ticket = convertTicketId(tickets[i])
+      try {
+        const data = await harvestMovieData(ticket)
+        ticket.matchedOMDB = true
+        ticket = marshalTicket(mergeMovieDetails(ticket, data))        
+      } catch(error) {
+        ticket.matchedOMDB = false
+      }
+      try {
+        // Insert ticket into database.
+        const result = await ticketResolver.addTicket(ticket)
+      } catch(error) {
+        logger.error({ message: "Failed to insert ticket using addTicket().", error })
+      }
     }
     res.json({ status: "success", ticketCount: tickets.length })
   } catch (error) {

@@ -14,7 +14,7 @@ import {
 export class Ticket extends Typegoose {
   @StaticMethod
   public static findById(this: ModelType<Ticket>, id: any) {
-    return this.findOne({ id })
+    return this.findOne({ _id: id })
   }
 
   @Field()
@@ -66,9 +66,9 @@ export class Ticket extends Typegoose {
   @Field()
   public awards: string
 
-  @Field(() => [String])
-  @ArrayProperty({ items: String, default: [] })
-  public ratings: string[]
+  @Field(() => [Object])
+  @ArrayProperty({ items: Object, default: [] })
+  public ratings: object[]
 
   @Field()
   public metascore: string
@@ -100,7 +100,7 @@ export class Ticket extends Typegoose {
   public inventory: number
 
   @Field()
-  @Property({ required: true })
+  @Property()
   public imageUrl: string
 
   @Field()
@@ -113,7 +113,7 @@ export class Ticket extends Typegoose {
 
   @InstanceMethod
   public saveFields(this: InstanceType<Ticket>) {
-    // Inventory should always be at least 0
+    // Inventory should always be at least 0.
     this.inventory = Math.max(this.inventory || 0, 0)
     return this.save()
   }

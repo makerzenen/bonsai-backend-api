@@ -1,8 +1,8 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql"
 
 import TicketModel, { Ticket } from "../entities/Ticket"
-
 import { AddTicketInput, TicketInput, ListTicketsMatchedInput} from "./types/Ticket.input"
+import logger from "../logger"
 
 @Resolver(() => Ticket)
 export default class TicketResolver {
@@ -30,6 +30,9 @@ export default class TicketResolver {
   @Mutation(() => Ticket)
   public async addTicket(@Arg("input") ticketInput: AddTicketInput): Promise<Ticket> {
     const ticket = new TicketModel(ticketInput)
+    // const { _id: id } = await TicketModel.create(ticketInput)
+    // const result = await TicketModel.findById(id).exec()
+    // logger.info(result)
     return ticket.saveFields()
   }
 }
