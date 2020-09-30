@@ -1,4 +1,4 @@
-import { connect } from "mongoose"
+import mongoose from "mongoose"
 
 import logger from "../logger"
 import TicketResolver from "../resolvers/Ticket.resolver"
@@ -10,24 +10,23 @@ export async function dropCollection(collection:string) {
   const MONGODB_URI = `mongodb://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`
   // Connect to mongo instance.
   try {
-    const connection = await connect(
+    await mongoose.connect(
       MONGODB_URI,
       {
         useNewUrlParser: true,
         authSource: "admin"
       },
     )
-    // Drop collection from mongo.
-    connection.once("open", () => {
-      connection.db.dropCollection(
-        collection,
-        (err, result) => {
+    const db = mongoose.connection
+    db.dropCollection(
+      collection,
+      (err) => {
+        if (!err) {
           logger.info(`Successfully dropped collection: ${collection}.`)
         }
-      )
-    })
-    // Close mongo connection.
-    mongoose.connection.close()
+      }
+    )
+    db.close()
   } catch (mongoConnectError) {
     logger.error(mongoConnectError)
   }
