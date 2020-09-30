@@ -3,12 +3,17 @@ import chai from "chai"
 import { harvestTickets, harvestMovieData, mergeMovieDetails, marshalTicket, parseRuntime } from "../utilities"
 
 describe("harvestTickets()", () => {
-  it("should respond with the number of tickets harvested", () => {
+  it("should respond with the number of tickets harvested", async () => {
+    const count = 10
+    const tickets = await harvestTickets(0, count)
+    chai.expect(tickets.length).to.equal(count)
   });
 });
 
 describe("harvestMovieData()", () => {
-  it("should respond with the list of harvested data", () => {
+  it("should respond with the list of harvested data", async () => {
+    const movie = await harvestMovieData({ title: "The Baby Maker" })
+    chai.expect(movie.year).to.equal("1970")
   });
 });
 
