@@ -1,0 +1,41 @@
+version: "3.4"
+
+services:
+  bonsai-backend-api-dev:
+    image: "highsupply/bonsai-backend-api-dev:latest"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "database"
+    env_file:
+      - ".env"
+    environment:
+      DATABASE_HOST: "database"
+
+  bonsai-backend-api-release:
+    image: "highsupply/bonsai-backend-api-release:latest"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "database"
+    env_file:
+      - ".env"
+    environment:
+      LOG_LEVEL: "info"
+      NODE_ENV: "production"
+      PORT: "3000"
+
+  database:
+    image: "mongo:4-bionic"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: bonsai
+      MONGO_INITDB_ROOT_USERNAME: bonsai
+      MONGO_INITDB_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "bash", "-c", "if mongo --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; then exit 0; fi; exit 1;"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s

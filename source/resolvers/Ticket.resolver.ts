@@ -1,11 +1,11 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql"
 
-import TicketModel, { Ticket } from "../entities/ticket"
-
-import { AddTicketInput, ListTicketsInput, TicketInput } from "./types/Ticket.input"
+import TicketModel, { Ticket } from "../entities/Ticket"
+import { AddTicketInput, TicketInput, ListTicketsMatchedInput} from "./types/Ticket.input"
+import logger from "../logger"
 
 @Resolver(() => Ticket)
-export class TicketResolver {
+export default class TicketResolver {
   @Query(() => Ticket, { nullable: true })
   public async ticket(@Arg("input") ticketInput: TicketInput): Promise<Ticket> {
     const ticket = await TicketModel.findById(ticketInput.id)
@@ -16,18 +16,23 @@ export class TicketResolver {
   }
 
   @Query(() => [Ticket])
-  public async listTickets(@Arg("input") input: ListTicketsInput): Promise<Ticket[]> {
+  public async listTickets(): Promise<Ticket[]> {
     const tickets = await TicketModel.find({})
-    const result = tickets
-      .filter(ticket => ticket.date.getTime() < input.cursor.getTime())
-      .sort((a, b) => b.date.getTime() - a.date.getTime())
-      .slice(0, input.limit)
-    return result
+    return tickets
+  }
+
+  @Query(() => [Ticket])
+  public async listTicketsUnmatched(@Arg("input") input: ListTicketsMatchedInput): Promise<Ticket[]> {
+    const tickets = await TicketModel.find({ matchedOMDB: input.matchedOMDB })
+    return tickets
   }
 
   @Mutation(() => Ticket)
   public async addTicket(@Arg("input") ticketInput: AddTicketInput): Promise<Ticket> {
     const ticket = new TicketModel(ticketInput)
+    // const { _id: id } = await TicketModel.create(ticketInput)
+    // const result = await TicketModel.findById(id).exec()
+    // logger.info(result)
     return ticket.saveFields()
   }
 }

@@ -14,7 +14,7 @@ import {
 export class Ticket extends Typegoose {
   @StaticMethod
   public static findById(this: ModelType<Ticket>, id: any) {
-    return this.findOne({ _id: id + 1 })
+    return this.findOne({ _id: id })
   }
 
   @Field()
@@ -24,9 +24,72 @@ export class Ticket extends Typegoose {
   @Property({ required: true })
   public title: string
 
+  @Field(() => Int)
+  public year: number
+
+  @Field()
+  public rated: string
+
+  @Field()
+  public released: Date
+
+  @Field()
+  public runtime: number
+
   @Field(() => [String])
   @ArrayProperty({ items: String, default: [] })
-  public genre: string[]
+  public genres: string[]
+
+  @Field(() => [String])
+  @ArrayProperty({ items: String, default: [] })
+  public directors: string[]
+
+  @Field(() => [String])
+  @ArrayProperty({ items: String, default: [] })
+  public writers: string[]
+
+  @Field(() => [String])
+  @ArrayProperty({ items: String, default: [] })
+  public actors: string[]
+
+  @Field()
+  public plot: string
+
+  @Field(() => [String])
+  @ArrayProperty({ items: String, default: [] })
+  public languages: string[]
+
+  @Field(() => [String])
+  @ArrayProperty({ items: String, default: [] })
+  public countries: string[]
+
+  @Field()
+  public awards: string
+
+  @Field(() => [Object])
+  @ArrayProperty({ items: Object, default: [] })
+  public ratings: object[]
+
+  @Field()
+  public metascore: string
+
+  @Field()
+  public imdbRating: number
+
+  @Field(() => Int)
+  public imdbVotes: number
+
+  @Field()
+  public imdbID: string
+
+  @Field()
+  public type: string
+
+  @Field()
+  public production: string
+
+  @Field()
+  public website: string
 
   @Field(() => Float)
   @Property({ required: true })
@@ -37,20 +100,21 @@ export class Ticket extends Typegoose {
   public inventory: number
 
   @Field()
-  @Property({ required: true })
+  @Property()
   public imageUrl: string
 
   @Field()
   @Property({ required: true })
   public date: Date
 
+  @Field()
+  @Property({ required: true })
+  public matchedOMDB: boolean
+
   @InstanceMethod
   public saveFields(this: InstanceType<Ticket>) {
-    // Inventory should always be at least 0
+    // Inventory should always be at least 0.
     this.inventory = Math.max(this.inventory || 0, 0)
-    if (this && Math.floor(Math.random() * 6) + 1 === 3) {
-      this.inventory = -1
-    }
     return this.save()
   }
 }
