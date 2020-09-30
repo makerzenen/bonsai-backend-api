@@ -44,7 +44,7 @@ export function convertTicketId(ticket: any) {
 }
 
 export function trim(input: string, delimiter: string): string[] {
-  const result = input.split(delimiter)
+  const result = input.split(delimiter).map(item => { return item.trim() })
   if (result.length === 1 && result[0] === "") {
     return []
   } 
@@ -52,12 +52,11 @@ export function trim(input: string, delimiter: string): string[] {
 }
 
 export function marshalTicket(ticket: any) {
-  logger.info({mt: ticket})
   try {
     const response = {
       _id: ticket["_id"]["$oid"],
       title: ticket.title,
-      year: ticket.year,
+      year: parseInt(ticket.year),
       date: ticket.date,
       price: ticket.price,
       rated: ticket.rated,
