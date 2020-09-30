@@ -49,7 +49,7 @@ router.get("/tickets/harvest", async (req, res) => {
       }
     }
     // Harvest and append movie data.
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < tickets.length; i++) {
       let ticket = convertTicketId(tickets[i])
       try {
         const data = await harvestMovieData(ticket)
