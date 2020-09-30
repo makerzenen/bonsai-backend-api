@@ -51,37 +51,6 @@ export function buildExpress() {
   if (!isProduction) {
     app.use(errorhandler());
   }
-  /*
-  app.use(function (req, res, next) {
-    const err = new Error("Not Found", status: 404);
-    next(err);
-  });
-
-  if (!isProduction) {
-    app.use(function (err, req, res, next) {
-      logger.error(err.stack);
-
-      res.status(err.status || 500);
-
-      res.json({
-        errors: {
-          message: err.message,
-          error: err,
-        },
-      });
-    });
-  }
-
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({
-      errors: {
-        message: err.message,
-        error: {},
-      },
-    });
-  });
-  */
   return app
 }
 
