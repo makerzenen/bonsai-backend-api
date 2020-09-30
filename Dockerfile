@@ -1,7 +1,7 @@
 FROM node:12-alpine AS dev
 RUN apk update --no-cache && \
   apk upgrade --no-cache && \
-  apk add iputils curl ping --no-cache && \
+  apk add iputils curl --no-cache && \
   npm install --silent --save-dev -g typescript@3.8.3
 RUN tsc -v
 WORKDIR /app
